@@ -35,34 +35,36 @@
 
 // export default User
 
-
-import { Schema ,model,models} from "mongoose";
+import { Schema, model, models } from "mongoose";
 import bcrypt from "bcryptjs";
-export interface IUser extends Document {
-    name?: string;
-    email: string;
-    image?: string;
-    password: string; // Optional for social login
-    role: "user" | "admin";
-    createdAt: Date;
-    updatedAt: Date;
+
+export interface IUser {
+  name?: string;
+  email: string;
+  image?: string;
+  password?: string; // optional for social logins
+  role: "user" | "admin";
+  createdAt?: Date;
+  updatedAt?: Date;
 }
-const userSchema = new Schema<IUser>({
-    name: { type: String, required: true },
+
+const userSchema = new Schema<IUser>(
+  {
+    name: { type: String },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }, // Optional for social login
+    password: { type: String }, // Optional for social login
     image: { type: String },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-},
-    { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
-    if (this.isModified("password")) {
-        this.password = await bcrypt.hash(this.password, 10)
-    }
-    next()
+  if (this.isModified("password") && this.password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
 });
 
 const User = models?.User || model<IUser>("User", userSchema);
-
 export default User;

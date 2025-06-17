@@ -9,6 +9,7 @@ function RegisterPage() {
         email: "",
         password: "",
         confirmPassword: "",
+        image: "",
     });
     const [image, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);

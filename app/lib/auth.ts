@@ -43,7 +43,8 @@ export const authOptions: NextAuthOptions = {
                     return {
                         id: user._id.toString(),
                         email: user.email,
-                        phone: user.phone,
+                        image: user.image,
+                        role: user.role,
                     };
 
                 } catch (error) {
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.image = user.image;
 
             }
             return token;

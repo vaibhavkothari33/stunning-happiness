@@ -13,7 +13,8 @@ export default withAuth(
             if(
                 pathname.startsWith("api/auth") ||
                 pathname === "/login" ||
-                pathname === "/register"
+                pathname === "/register" ||
+                pathname === "/api/upload" // ✅ allow upload route for registration
             )
             return true
 
